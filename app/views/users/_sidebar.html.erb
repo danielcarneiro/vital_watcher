@@ -1,0 +1,11 @@
+<strong>Name</strong> <%= @user.display_name %><br />
+<strong>Email</strong> <%= @user.email %><br />
+<strong>Status</strong>  <%= status_for @user %><br />
+<% if @user.devices.empty? %>
+	No devices associated
+<% else %>
+	<strong>Devices</strong>
+	<table class="devices" summary="User devices">
+		<%= render @devices %>
+	</table>
+<% end %>

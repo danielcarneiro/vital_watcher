@@ -1,0 +1,18 @@
+<table class="profile" summary="Profile information">
+	<tr>
+    <td class="main">
+      <h1>
+        <%= gravatar_for @user %>
+        <%= @user.display_name %>
+      </h1>
+    </td>
+    <td class="sidebar round">
+      <%= render 'sidebar' %>
+    </td>
+  </tr>
+  <tr>
+  	<td>
+      <strong>Heart Rate</strong> <%= @user.last_heart_rate %>
+  	</td>
+  </tr>
+</table>

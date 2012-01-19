@@ -1,0 +1,172 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                 :integer         not null, primary key
+#  login              :string(255)
+#  display_name       :string(255)
+#  email              :string(255)
+#  last_heart_rate    :integer
+#  online_status      :boolean
+#  last_battery_value :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  encrypted_password :string(255)
+#  salt               :string(255)
+#
+
+require 'spec_helper'
+
+describe User do
+  before(:each) do
+    @attr = { 
+      :login => "dcarneiro",
+      :display_name => "Daniel Carneiro", 
+      :email => "daniel.carneiro@biodevices.pt",
+      :last_heart_rate => 84,
+      :online_status => true,
+      :last_battery_value => 47,
+      :password => "foobar",
+      :password_confirmation => "foobar"
+    }
+  end
+
+  it "should create a new instance given valid attributes" do
+    User.create!(@attr)
+  end
+
+  it "should require a login" do
+    no_login_user = User.new(@attr.merge(:login => ""))
+    no_login_user.should_not be_valid
+  end
+
+  it "should required a display name" do
+    no_display_name_user = User.new(@attr.merge(:display_name => ""))
+    no_display_name_user.should_not be_valid
+  end
+
+  it "should require a email" do
+    no_email_user = User.new(@attr.merge(:email => ""))
+    no_email_user.should_not be_valid
+  end
+
+  it "should reject invalid email addresses" do
+    addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
+    addresses.each do |address|
+      invalid_email_user = User.new(@attr.merge(:email => address))
+      invalid_email_user.should_not be_valid
+    end
+  end
+
+  it "should reject duplicate email addresses" do
+    User.create!(@attr)
+    user_with_duplicate_email = User.new(@attr)
+    user_with_duplicate_email.should_not be_valid
+  end
+
+  it "should reject email addresses identical up to case" do
+    upcased_email = @attr[:email].upcase
+    User.create!(@attr.merge(:email => upcased_email))
+    user_with_duplicate_email = User.new(@attr)
+    user_with_duplicate_email.should_not be_valid
+  end
+
+  describe "password validations" do
+    it "should require a password" do
+      User.new(@attr.merge(:password => "", :password_confirmation => "")).
+        should_not be_valid
+    end
+
+    it "should require a matching password confirmation" do
+      User.new(@attr.merge(:password_confirmation => "invalid")).
+        should_not be_valid
+    end
+
+    it "should reject short passwords" do
+      short = "a" * 5
+      hash = @attr.merge(:password => short, :password_confirmation => short)
+      User.new(hash).should_not be_valid
+    end
+
+    it "should reject long passwords" do
+      long = "a" * 41
+      hash = @attr.merge(:password => long, :password_confirmation => long)
+      User.new(hash).should_not be_valid
+    end
+  end
+
+  describe "password encryption" do
+    before(:each) do
+      @user = User.create!(@attr)
+    end
+
+    it "should have an encrypted password attribute" do
+      @user.should respond_to(:encrypted_password)
+    end
+
+    it "should set the encrypted password" do
+      @user.encrypted_password.should_not be_blank
+    end
+
+    describe "has_password? method" do
+
+      it "should be true if the passwords match" do
+        @user.has_password?(@attr[:password]).should be_true
+      end
+
+      it "should be false if the passwords don't match" do
+        @user.has_password?("invalid").should be_false
+      end
+    end
+
+    describe "authenticate method" do
+      it "should return nil on loign/password mismatch" do
+        wrong_password_user = User.authenticate(@attr[:login], "wrongpass")
+        wrong_password_user.should be_nil
+      end
+
+      it "should return nil for an login with no user" do
+        nonexistent_user = User.authenticate("ghost", @attr[:password])
+        nonexistent_user.should be_nil
+      end
+
+      it "should return the user on login/password match" do
+        matching_user = User.authenticate(@attr[:login], @attr[:password])
+        matching_user.should == @user
+      end
+
+      it "should return nil on user without password" do
+        no_password_user = User.authenticate(@attr[:login], "")
+        no_password_user.should be_nil
+      end
+    end
+  end
+
+  describe "devices associations" do
+    before(:each) do
+      @user = User.create(@attr)
+      @device1 = Factory(:device, :user => @user)
+      @device2 = Factory(:device, :user => @user, 
+                          :mac_address => Factory.next(:mac_address))
+    end
+
+    it "should have a devices attribute" do
+      @user.should respond_to(:devices)
+    end
+
+    it "should have the right devices" do
+      @user.devices.should include(@device1, @device2)
+    end
+
+    it "should destroy associated devices" do
+      @user.destroy
+      [@device1, @device2].each do |device|
+        Device.find_by_id(device.id).should be_nil
+      end
+    end
+
+    it "should know if it has a device" do
+      @user.has_device?("11:11:11:11:11:11").should be_false
+    end
+  end
+end
