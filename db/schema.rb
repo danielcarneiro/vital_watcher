@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120120095511) do
+ActiveRecord::Schema.define(:version => 20120120104401) do
 
   create_table "devices", :force => true do |t|
     t.string   "mac_address"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(:version => 20120120095511) do
   end
 
   add_index "devices", ["user_id"], :name => "index_devices_on_user_id"
+
+  create_table "heart_rate_summaries", :force => true do |t|
+    t.date     "date"
+    t.integer  "occurrences"
+    t.integer  "user_id"
+    t.integer  "heart_rate_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "heart_rate_summaries", ["heart_rate_type_id"], :name => "index_heart_rate_summaries_on_heart_rate_type_id"
+  add_index "heart_rate_summaries", ["user_id"], :name => "index_heart_rate_summaries_on_user_id"
 
   create_table "heart_rate_types", :force => true do |t|
     t.string   "name"

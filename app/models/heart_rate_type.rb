@@ -11,4 +11,11 @@
 #
 
 class HeartRateType < ActiveRecord::Base
+	has_many :heart_rate_summaries, :dependent => :destroy
+
+  def self.find_by_value(value)
+		HeartRateType.where(
+			"(min_value <= :value or min_value is null) and (max_value > :value or max_value is null)", 
+			{ :value => value }).first
+  end
 end

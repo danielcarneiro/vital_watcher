@@ -37,9 +37,12 @@ def make_users
 end
 
 def make_devices
+	admin = User.find_by_admin(true)
+	admin.devices.create!(:mac_address => "64:61:6E:69:65:6C")
 	prng = Random.new(12345)
-	User.all(:limit => 3).each do |user|
-		mac_address = ("%12x" % (prng.rand * 0xffffffffffff)).scan(/../).join(':').upcase
+	mask = 0xffffffffffff
+	User.all(:offset => 1, :limit => 3).each do |user|
+		mac_address = ("%12x" % (prng.rand * mask)).scan(/../).join(':').upcase
 		user.devices.create!(:mac_address => mac_address)
 	end
 end

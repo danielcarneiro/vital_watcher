@@ -13,6 +13,7 @@
 #  updated_at         :datetime
 #  encrypted_password :string(255)
 #  salt               :string(255)
+#  admin              :boolean         default(FALSE)
 #
 
 class User < ActiveRecord::Base
@@ -22,6 +23,7 @@ class User < ActiveRecord::Base
 					:password, :password_confirmation
 
 	has_many :devices, :dependent => :destroy
+	has_many :heart_rate_summaries, :dependent => :destroy
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 		
@@ -60,9 +62,11 @@ class User < ActiveRecord::Base
   		devices.any? { |device| device.mac_address == mac_address }
   	end
 
-  	def self.find_by_device(mac_address)
-  		Device.find_by_mac_address(mac_address).user
-  	end
+	def self.find_by_device(mac_address)
+		device = Device.find_by_mac_address(mac_address)
+		return nil if device.nil?
+		return device.user 
+	end
 
 	private
 		def encrypt_password
