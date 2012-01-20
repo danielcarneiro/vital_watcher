@@ -1,0 +1,29 @@
+<%= form_for(@heart_rate_type) do |f| %>
+  <% if @heart_rate_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@heart_rate_type.errors.count, "error") %> prohibited this heart_rate_type from being saved:</h2>
+
+      <ul>
+      <% @heart_rate_type.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :min_value %><br />
+    <%= f.number_field :min_value %>
+  </div>
+  <div class="field">
+    <%= f.label :max_value %><br />
+    <%= f.number_field :max_value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

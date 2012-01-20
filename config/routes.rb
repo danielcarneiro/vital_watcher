@@ -1,16 +1,19 @@
 VitalWatcher::Application.routes.draw do
+
   get "sessions/new"
 
   resources :users
+  resources :heart_rate_types
 
   resources :sessions, :only => [:new, :create, :destroy]
   resources :microposts, :only => [:create, :destroy]
 
-  match '/signup',  :to => 'users#new'
-  match '/signin',  :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  match '/signup',                :to => 'users#new'
+  match '/signin',                :to => 'sessions#new'
+  match '/signout',               :to => 'sessions#destroy'
   
-  match '/about',   :to => 'pages#about'
+  match '/about',                 :to => 'pages#about'
+  match '/not_enough_privileges', :to => 'pages#not_enough_privileges'
 
   root :to => 'pages#home'
 

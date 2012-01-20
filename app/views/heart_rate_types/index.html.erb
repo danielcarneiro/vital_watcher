@@ -1,0 +1,32 @@
+<h1>Heart Rate Groups</h1>
+
+<table>
+  <tr>
+    <th>Between</th>
+    <th>Min value</th>
+    <th>Max value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @heart_rate_types.each do |heart_rate_type| %>
+  <tr>
+    <td><%= heart_rate_type.name %></td>
+    <td><%= heart_rate_type.min_value %></td>
+    <td><%= heart_rate_type.max_value %></td>
+
+    <% if current_user.admin? %>
+      <td><%= link_to 'Show', heart_rate_type %></td>
+      <td><%= link_to 'Edit', edit_heart_rate_type_path(heart_rate_type) %></td>
+      <td><%= link_to 'Destroy', heart_rate_type, confirm: 'Are you sure?', method: :delete %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% if current_user.admin? %>
+  <%= link_to 'New Heart rate type', new_heart_rate_type_path %>
+<% end %>

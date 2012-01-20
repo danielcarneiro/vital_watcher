@@ -1,4 +1,5 @@
 <strong>Name</strong> <%= @user.display_name %><br />
+<strong>Login</strong> <%= @user.login %><br />
 <strong>Email</strong> <%= @user.email %><br />
 <strong>Status</strong>  <%= status_for @user %><br />
 <% if @user.devices.empty? %>

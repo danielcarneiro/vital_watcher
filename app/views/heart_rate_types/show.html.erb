@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @heart_rate_type.name %>
+</p>
+
+<p>
+  <b>Min value:</b>
+  <%= @heart_rate_type.min_value %>
+</p>
+
+<p>
+  <b>Max value:</b>
+  <%= @heart_rate_type.max_value %>
+</p>
+
+
+<%= link_to 'Edit', edit_heart_rate_type_path(@heart_rate_type) %> |
+<%= link_to 'Back', heart_rate_types_path %>
