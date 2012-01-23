@@ -43,7 +43,7 @@ test:
   encoding: unicode
   database: vital_watcher_test
   pool: 5
-  username: dcarneiro
+  username: vitalwatcher
   password: 12345
 
 production:
