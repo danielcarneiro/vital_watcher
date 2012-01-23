@@ -124,21 +124,19 @@ end
 
 def handle_hr(user, value)
 	hr_type = HeartRateType.find_by_value(value)
-	puts hr_type.name
 
 	heart_rate_summary = HeartRateSummary.find_last_entry(user, hr_type, Date.today)
-	puts heart_rate_summary.class
 	if (heart_rate_summary == nil)
 		create_new_hr_summary_entry(user, hr_type)
 	else
 		update_hr_entry(heart_rate_summary, user, hr_type)
 	end
 
-	user.update_attributes(:last_heart_rate => value)
+	User.update(user.id, 
+				:last_heart_rate => value)
 end
 
 def create_new_hr_summary_entry(user, heart_rate_type)
-	puts "create biatch #{user.id} #{heart_rate_type.id}"
 	HeartRateSummary.create!(:date => Date.today,
 								:occurrences => 1,
 								:user_id => user.id,
@@ -146,7 +144,8 @@ def create_new_hr_summary_entry(user, heart_rate_type)
 end 
 
 def update_hr_entry(heart_rate_summary, user, heart_rate_type)
-	heart_rate_summary.update_attributes(:occurrences => heart_rate_summary.occurrences + 1)
+	HeartRateSummary.update(heart_rate_summary.id,
+							:occurrences => heart_rate_summary.occurrences + 1)
 	
 end 
 

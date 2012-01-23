@@ -16,7 +16,6 @@ class HeartRateSummary < ActiveRecord::Base
   belongs_to :heart_rate_type
 
   def self.find_last_entry(user, heart_rate_type, date)
-  	puts "user_id: #{user.id} heart_rate_type #{heart_rate_type.id}"
   	results = HeartRateSummary.where( :user_id => user.id, 
 									:heart_rate_type_id => heart_rate_type.id, 
 									:date => date)
