@@ -126,6 +126,7 @@ def parse_user_message(user, array)
 end
 
 def handle_hr(user, value)
+	feedback "handle_hr: #{user}, #{value}"
 	hr_type = HeartRateType.find_by_value(value)
 	HeartRateSummary.handle_heart_rate_entry(user, hr_type, Date.today, value)
 end

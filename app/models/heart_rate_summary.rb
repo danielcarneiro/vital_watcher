@@ -22,11 +22,12 @@ class HeartRateSummary < ActiveRecord::Base
   validates :occurrences, :numericality => { :greater_than => 0 }
 
   def self.handle_heart_rate_entry(user, heart_rate_type, date, value)
+    puts "handle_heart_rate_entry #{user.id}"
     heart_rate_summary = HeartRateSummary.
-      find_entry(user.id, hr_type.id, Date.today)
+      find_entry(user.id, heart_rate_type.id, Date.today)
     
     if (heart_rate_summary == nil)
-      create_new_heart_rate_summary_entry(user.id, hr_type.id)
+      create_new_heart_rate_summary_entry(user.id, heart_rate_type.id)
     else
       add_heart_rate_entry(heart_rate_summary)
     end
