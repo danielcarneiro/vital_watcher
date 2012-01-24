@@ -22,3 +22,9 @@ Factory.sequence :mac_address do |n|
 	count = "%02x" % n
 	"12:34:45:56:67:#{count}"
 end
+
+Factory.define :heart_rate_type do |heart_rate_type|
+	heart_rate_type.name 			"80<100"
+	heart_rate_type.min_value		80
+	heart_rate_type.max_value		100
+end

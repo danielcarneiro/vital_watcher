@@ -100,3 +100,14 @@ connection open with 192.168.9.61
 recv> 64616e69656c4c
 yey! just got a message from Daniel Carneiro
 server closed
+Server started on 192.168.9.68:2000
+connection open with 192.168.9.61
+recv> 64616e69656c4d
+yey! just got a message from Daniel Carneiro
+recv> 64616e69656c4e
+yey! just got a message from Daniel Carneiro
+recv> 64616e69656c4f
+yey! just got a message from Daniel Carneiro
+recv> 64616e69656c6d
+yey! just got a message from Daniel Carneiro
+server closed

@@ -6,7 +6,7 @@ VitalWatcher::Application.routes.draw do
   resources :heart_rate_types
 
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :microposts, :only => [:create, :destroy]
+  resources :devices, :only => [:new, :create, :destroy]
 
   match '/signup',                :to => 'users#new'
   match '/signin',                :to => 'sessions#new'

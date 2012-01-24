@@ -18,7 +18,6 @@ def start_server(port)
 	@tags.default = :handle_hr
 
 	feedback("Server started on #{@host}:#{port}")
-
 	connect
 end
 
@@ -79,15 +78,15 @@ def feedback(message)
 end
 
 def handle_message(message)
-	array = convert_to_byte_array(message)
-	log_received_message array
+	byte_array = convert_to_byte_array(message)
+	log_received_message byte_array
 
-	if (array.length < 7)
+	if (byte_array.length < 7)
 		feedback "short message: #{array}"
 		return nil
 	end
 
-	address = get_mac_address(array.first(6))
+	address = get_mac_address(byte_array.first(6))
 	user = User.find_by_device(address)
 	if (user == nil)
 		feedback "unknown user for mac_address: #{address}"
@@ -95,7 +94,7 @@ def handle_message(message)
 	end
 
 	feedback "yey! just got a message from #{user.display_name}"
-	parse_user_message(user, array[6..array.length])
+	parse_user_message(user, byte_array[6..byte_array.length])
 end
 
 def convert_to_byte_array(message)
@@ -116,7 +115,6 @@ def get_mac_address(array)
 	parsed_string.scan(/../).join(':').upcase
 end
 
-
 def parse_user_message(user, array)
 	value = array.length == 1 ? array[0] : array[1]
 	send(@tags[array.first], user, value)
@@ -124,30 +122,8 @@ end
 
 def handle_hr(user, value)
 	hr_type = HeartRateType.find_by_value(value)
-
-	heart_rate_summary = HeartRateSummary.find_last_entry(user, hr_type, Date.today)
-	if (heart_rate_summary == nil)
-		create_new_hr_summary_entry(user, hr_type)
-	else
-		update_hr_entry(heart_rate_summary, user, hr_type)
-	end
-
-	User.update(user.id, 
-				:last_heart_rate => value)
+	HeartRateSummary.handle_heart_rate_entry(user, hr_type, Date.today, value)
 end
-
-def create_new_hr_summary_entry(user, heart_rate_type)
-	HeartRateSummary.create!(:date => Date.today,
-								:occurrences => 1,
-								:user_id => user.id,
-								:heart_rate_type_id => heart_rate_type.id)
-end 
-
-def update_hr_entry(heart_rate_summary, user, heart_rate_type)
-	HeartRateSummary.update(heart_rate_summary.id,
-							:occurrences => heart_rate_summary.occurrences + 1)
-	
-end 
 
 def handle_activities(user, value)
 	feedback "handle_activities #{value}"
