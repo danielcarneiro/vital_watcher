@@ -3,7 +3,7 @@ require 'socket'
 namespace :server do
 	desc "Start Vital Watcher TCP Server"
 	task :start => :environment do
-		@host = 'localhost'
+		@host = '0.0.0.0'
 		port = ENV["PORT"] || 2000
 		start_server(port)
 	end
@@ -11,7 +11,6 @@ end
 
 def start_server(port)
 	puts "Trying to connect to #{@host}:#{port}"
-	
 
 	@server = TCPServer.new(@host, port)
 	@logger = Logger.new('log/server/default.log', 'daily')
