@@ -26,24 +26,24 @@ describe HeartRateType do
   end
 
   it "should not create when name is nil or empty" do
-    HeartRateType.create!(@attr.merge(:name => "")).should_not be_valid
+    HeartRateType.new(@attr.merge(:name => "")).should_not be_valid
   end
 
   it "should create when min value is nil" do
-    HeartRateType.create!(@attr.merge(:min_value => nil)).should be_valid
+    HeartRateType.new(@attr.merge(:min_value => nil)).should be_valid
   end
 
 	it "should create when max value is nil" do
-    HeartRateType.create!(@attr.merge(:max_value => nil)).should be_valid
+    HeartRateType.new(@attr.merge(:max_value => nil)).should be_valid
   end
 
   it "should not create when both min value and max value are nil" do
-    HeartRateType.create(@attr.merge(:min_value => nil, :max_value => nil)).
+    HeartRateType.new(@attr.merge(:min_value => nil, :max_value => nil)).
     	should_not be_valid
   end
 
   it "should fail to create when min_value > max_value" do
-    invalid_heart_rate_type = HeartRateType.create(@attr.merge(:min_value => 100, :max_value => 80))
+    invalid_heart_rate_type = HeartRateType.new(@attr.merge(:min_value => 100, :max_value => 80))
     invalid_heart_rate_type.should_not be_valid
   end
 end

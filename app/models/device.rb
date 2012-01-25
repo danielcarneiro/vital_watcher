@@ -14,7 +14,10 @@ class Device < ActiveRecord::Base
 
 	belongs_to :user
 
+	mac_address_regex = /\A([0-9A-F]{2}(:|$)){6}\z/
+
 	validates :mac_address, 	:presence 	=> true,
-								:length		=> { :is => 17 },
-								:uniqueness => { :case_sensitive => false }
+								:format 	=> { :with => mac_address_regex, 
+												 :message => "should be uppercase and split by ':'"},
+								:uniqueness => { :case_sensitive => false },
 end

@@ -13,6 +13,10 @@ Factory.sequence :login do |n|
 	"login-#{n}"
 end
 
+Factory.sequence :email do |n|
+	"email-#{n}@vitalwatcher.com"
+end
+
 Factory.define :device do |device|
 	device.mac_address "12:34:45:56:67:00"
 	device.association :user

@@ -2,4 +2,12 @@
   <td class="device">
     <span class="content"><%= device.mac_address %></span>
   </td>
+
+  <% if current_user?(device.user) %>
+  	<td>
+  		<%= link_to "delete", device, 	:method => :delete,
+  										:confirm => "You sure?",
+  										:title => device.mac_address %>
+  	</td>
+  <% end %>
 </tr>

@@ -15,11 +15,15 @@ describe Device do
 
 	before(:each) do
     @user = Factory(:user)
-    @attr = { :mac_address => "00-24-7E-6D-4E-E9" }
+    @attr = { :mac_address => "00:24:7E:6D:4E:E9" }
   end
 
   it "should create a new instance given valid attributes" do
     @user.devices.create!(@attr)
+  end
+
+  it "should not create with an invalid mac address" do
+    Device.new(@attr.merge(:mac_address => "00-af-3e-41-11-13")).should_not be_valid
   end
 
   describe "user associations" do
