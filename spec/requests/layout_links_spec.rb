@@ -1,10 +1,13 @@
 require 'spec_helper'
 
 describe "LayoutLinks" do
-  it "should have a Home page at '/'" do
-    get '/'
-    response.should have_selector('title', :content => "Home")
-  end
+	describe "non authenticated users" do
+	  it "" do
+	    get '/'
+	    #response.should have_selector('title', :content => "Home")
+	    response.should redirect_to(signin_path)
+	  end
+	end
 
   it "should have an About page at '/about'" do
     get '/about'
