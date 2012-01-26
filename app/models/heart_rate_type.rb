@@ -13,7 +13,8 @@
 class HeartRateType < ActiveRecord::Base
 	has_many :heart_rate_summaries, :dependent => :destroy
 
-	validates :name, 		:presence => true
+	validates :name, 		:presence => true,
+							:uniqueness => true
 	
 	validates :min_value, 	:presence => true, :if => "max_value.nil?"
 

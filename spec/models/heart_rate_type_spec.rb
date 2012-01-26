@@ -15,9 +15,9 @@ require 'spec_helper'
 describe HeartRateType do
   before(:each) do
     @attr = { 
-      :name => "80<100",
-      :min_value => 80, 
-      :max_value => 100,
+      :name => "140<160",
+      :min_value => 140, 
+      :max_value => 160,
     }
   end
 
@@ -48,10 +48,7 @@ describe HeartRateType do
   end
 
   describe "should find by value" do
-    before(:each) do
-      @heart_rate_types = []
-      4.times {@heart_rate_types << Factory.create(:heart_rate_type)}
-    end
+
     it "for lower values" do
       value = 1
       heart_rate_type = HeartRateType.find_by_value(value)

@@ -17,16 +17,15 @@ describe HeartRateSummary do
 
   before(:each) do
   	@user = Factory(:user)
-    @heart_rate_type = Factory(:heart_rate_type)
     @attr = { 
       :date => Date.today,
       :occurrences => 5, 
+      :heart_rate_type_id => 1
     }
   end
   
   it "should create a new instance given valid attributes" do
-  	@user.heart_rate_summaries.create!(@attr.
-      merge(:heart_rate_type => @heart_rate_type))
+  	@user.heart_rate_summaries.create!(@attr)
   end
 
   describe "user associations" do
@@ -45,17 +44,20 @@ describe HeartRateSummary do
   end
 
   describe "heart rate type associations" do
-    before(:each) do
-      @heart_rate_summary = @heart_rate_type.heart_rate_summaries.create(@attr)
-    end
+    lambda do
+      before(:each) do
+        @heart_rate_type = Factory.create(:heart_rate_type)
+        @heart_rate_summary = @heart_rate_type.heart_rate_summaries.create(@attr)
+      end
 
-    it "should have a heart rate type attribute" do
-      @heart_rate_summary.should respond_to(:heart_rate_type)
-    end
+      it "should have a heart rate type attribute" do
+        @heart_rate_summary.should respond_to(:heart_rate_type)
+      end
 
-    it "should have the right associated heart rate type" do
-      @heart_rate_summary.heart_rate_type_id.should == @heart_rate_type.id
-      @heart_rate_summary.heart_rate_type.should == @heart_rate_type
+      it "should have the right associated heart rate type" do
+        @heart_rate_summary.heart_rate_type_id.should == @heart_rate_type.id
+        @heart_rate_summary.heart_rate_type.should == @heart_rate_type
+      end
     end
   end
 
@@ -65,7 +67,9 @@ describe HeartRateSummary do
     end
 
     it "should require a heart_rate_type id" do
-      HeartRateSummary.new(@attr.merge(:user_id => 1)).should_not be_valid
+      HeartRateSummary.new(@attr.merge(:user_id => 1, 
+                                      :heart_rate_type_id => nil))
+        .should_not be_valid
     end
 
     it "should have more that 0 occurrences" do

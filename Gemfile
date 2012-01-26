@@ -34,6 +34,7 @@ group :test do
 	gem 'rspec-rails', '2.6.1'
 	gem 'webrat', '0.7.1'
 	gem 'factory_girl_rails', "~> 1.2"
+	gem 'faker', '0.3.1'
 end
 
 # To use ActiveModel has_secure_password

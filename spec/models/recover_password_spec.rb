@@ -13,10 +13,10 @@ require 'spec_helper'
 
 describe RecoverPassword do
   before(:each) do
-    @attr = { 
-      :email => "daniel.carneiro@biodevices.pt"
-    }
   	@user = Factory(:user)
+    @attr = { 
+      :email => @user.email
+    }
   end
 
   describe "validations" do
@@ -31,7 +31,7 @@ describe RecoverPassword do
   end
 
   it "should not be able to change the token" do
-  	recover_password = RecoverPassword.create(:email => "daniel.carneiro@biodevices.pt")
+  	recover_password = RecoverPassword.create(@attr, :user => @user)
     token = recover_password.token
   	recover_password.update_attributes :token => 'bar'
   	recover_password.reload.token.should eql token 

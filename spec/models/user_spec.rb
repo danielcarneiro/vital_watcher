@@ -21,9 +21,9 @@ require 'spec_helper'
 describe User do
   before(:each) do
     @attr = { 
-      :login => "dcarneiro",
+      :login => "teste",
       :display_name => "Daniel Carneiro", 
-      :email => "daniel.carneiro@biodevices.pt",
+      :email => "test-email@biodevices.pt",
       :last_heart_rate => 84,
       :online_status => true,
       :last_battery_value => 47,

@@ -66,7 +66,7 @@ describe DevicesController do
     describe "for an unauthorized user" do
       before(:each) do
         @user = Factory(:user)
-        @wrong_user = Factory(:user, :login => Factory.next(:login), :email => Factory.next(:email))
+        @wrong_user = Factory(:user)
         test_sign_in(@wrong_user)
         @device = Factory(:device, :user => @user)
       end
