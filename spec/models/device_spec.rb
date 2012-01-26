@@ -26,8 +26,15 @@ describe Device do
     Device.new(@attr.merge(:mac_address => "00-af-3e-41-11-13")).should_not be_valid
   end
 
-  describe "user associations" do
+  it "should not create a duplicate mac address" do
+    lambda do
+      Device.create!(@attr)
+      device = Device.create!(@attr)
+      device.should_not be_valid
+    end
+  end
 
+  describe "user associations" do
     before(:each) do
       @device = @user.devices.create(@attr)
     end

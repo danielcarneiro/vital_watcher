@@ -27,10 +27,26 @@ Factory.sequence :mac_address do |n|
 	"12:34:45:56:67:#{count}"
 end
 
-Factory.define :heart_rate_type do |heart_rate_type|
-	heart_rate_type.name 			"80<100"
-	heart_rate_type.min_value		80
-	heart_rate_type.max_value		100
+FactoryGirl.define do
+	factory :heart_rate_type do
+		name 	
+		min_value
+		max_value
+	end
+
+	sequence :name do |n|
+		min_value = n * 20 + 40 unless n < 2
+		max_value = n * 20 + 60 unless n > 3
+		"#{min_value}<#{max_value}"
+	end
+
+	sequence :min_value do |n|
+		n * 20 + 40 unless n < 2
+	end
+
+	sequence :max_value do |n|
+		n * 20 + 60 unless n > 3
+	end
 end
 
 Factory.define :recover_password do |recover_password|

@@ -72,4 +72,20 @@ describe HeartRateSummary do
       HeartRateSummary.new(@attr.merge(:occurrences => 0)).should_not be_valid
     end
   end
+
+  describe "should create a new entry" do
+    lambda do
+      count = HeartRateSummary.count
+      HeartRateSummary.create_new_entry(@user, @heart_rate_type)
+      HeartRateSummary.count.should eql count + 1
+    end
+  end
+
+  describe "should increase the occurrences of the heart rate summary entry by 1" do
+    lambda do
+      heart_rate_summary = HeartRateSummary.create!(@attr)
+      heart_rate_summary.add_occurrence
+      heart_rate_summary.occurrences.should eql @attr[:occurrences] + 1
+    end
+  end
 end

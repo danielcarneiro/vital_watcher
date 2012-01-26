@@ -26,9 +26,9 @@ class HeartRateSummary < ActiveRecord::Base
       find_entry(user.id, heart_rate_type.id, Date.today)
     
     if (heart_rate_summary == nil)
-      HeartRateSummary.create_new_heart_rate_summary_entry(user.id, heart_rate_type.id)
+      HeartRateSummary.create_new_entry(user.id, heart_rate_type.id)
     else
-      HeartRateSummary.add_heart_rate_entry(heart_rate_summary)
+      heart_rate_summary.add_occurrence
     end
 
     User.update(user.id, :last_heart_rate => value)
@@ -42,22 +42,21 @@ class HeartRateSummary < ActiveRecord::Base
     return nil
   end
 
-  def self.create_new_heart_rate_summary_entry(user_id, heart_rate_type_id)
-    HeartRateSummary.create!(:date => Date.today,
-                  :occurrences => 1,
-                  :user_id => user_id,
-                  :heart_rate_type_id => heart_rate_type_id)
-  end 
-
-  def self.add_heart_rate_entry(heart_rate_summary)
-    HeartRateSummary.update(heart_rate_summary.id,
-                :occurrences => heart_rate_summary.occurrences + 1)
-    
-  end
-
   def self.find_user_heart_rates_by_date(user_id, date)
     results = HeartRateSummary.where( :user_id => user.id,
                                       :date => date )
   end
 
+  private
+    def self.create_new_entry(user_id, heart_rate_type_id)
+      HeartRateSummary.create!(:date => Date.today,
+                    :occurrences => 1,
+                    :user_id => user_id,
+                    :heart_rate_type_id => heart_rate_type_id)
+    end 
+
+    def add_occurrence
+      occurrences += 1
+      save!
+    end
 end

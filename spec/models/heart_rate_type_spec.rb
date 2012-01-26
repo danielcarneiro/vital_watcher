@@ -46,4 +46,31 @@ describe HeartRateType do
     invalid_heart_rate_type = HeartRateType.new(@attr.merge(:min_value => 100, :max_value => 80))
     invalid_heart_rate_type.should_not be_valid
   end
+
+  describe "should find by value" do
+    before(:each) do
+      @heart_rate_types = []
+      4.times {@heart_rate_types << Factory.create(:heart_rate_type)}
+    end
+    it "for lower values" do
+      value = 1
+      heart_rate_type = HeartRateType.find_by_value(value)
+      heart_rate_type.min_value.should be_nil
+      heart_rate_type.max_value.should be > value
+    end
+
+    it "for intermediate values" do
+      value = 90
+      heart_rate_type = HeartRateType.find_by_value(value)
+      heart_rate_type.min_value.should be <= value
+      heart_rate_type.max_value.should be > value
+    end
+
+    it "for upper values" do
+      value = 9000
+      heart_rate_type = HeartRateType.find_by_value(value)
+      heart_rate_type.min_value.should be <= value
+      heart_rate_type.max_value.should be_nil
+    end
+  end
 end

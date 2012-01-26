@@ -23,7 +23,7 @@ describe RecoverPasswordsController do
     end
 
     it "should be successful" do
-      get :recover_password, :id => @recover_password
+      get :edit, :id => @recover_password.token
       response.should be_success
     end
   end

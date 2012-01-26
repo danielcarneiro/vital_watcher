@@ -31,7 +31,7 @@ describe RecoverPassword do
   end
 
   it "should not be able to change the token" do
-  	recover_password = RecoverPassword.create(:email => "daniel.carneiro@biodevices.pt", :user => @user)
+  	recover_password = RecoverPassword.create(:email => "daniel.carneiro@biodevices.pt")
     token = recover_password.token
   	recover_password.update_attributes :token => 'bar'
   	recover_password.reload.token.should eql token 
