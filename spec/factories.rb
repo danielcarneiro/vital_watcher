@@ -32,3 +32,8 @@ Factory.define :heart_rate_type do |heart_rate_type|
 	heart_rate_type.min_value		80
 	heart_rate_type.max_value		100
 end
+
+Factory.define :recover_password do |recover_password|
+	recover_password.association	:user
+	recover_password.email			"daniel.carneiro@biodevices.pt"
+end

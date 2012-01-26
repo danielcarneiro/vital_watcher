@@ -1,0 +1,17 @@
+<h1>Recover Password</h1>
+
+<%= form_for @recover_password, :url => recover_password_path(params[:id]) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+
+  Hi <%= @recover_password.user.display_name %>, you can now choose a new password.
+  <%= @recover_password.token %>
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="actions"><%= f.submit "Update Password" %></div>
+<% end %>

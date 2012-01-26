@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120120104401) do
+ActiveRecord::Schema.define(:version => 20120125153439) do
 
   create_table "devices", :force => true do |t|
     t.string   "mac_address"
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(:version => 20120120104401) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "recover_passwords", :force => true do |t|
+    t.string   "token"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recover_passwords", ["token"], :name => "index_recover_passwords_on_token", :unique => true
+  add_index "recover_passwords", ["user_id"], :name => "index_recover_passwords_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login"

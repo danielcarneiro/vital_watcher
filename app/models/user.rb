@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
 	has_many :devices, :dependent => :destroy
 	has_many :heart_rate_summaries, :dependent => :destroy
+	has_many :recover_passwords, :dependent => :destroy
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 		
@@ -38,9 +39,10 @@ class User < ActiveRecord::Base
 						:uniqueness => { :case_sensitive => false }
 
 	validates :password,	:presence     => true,
-	       					:confirmation => true,
 	       					:length       => { :within => 6..40 },
 	       					:on 		  => :create
+
+	validates :password,	:confirmation => true
 
 	validates :encrypted_password,	:presence     => true,
 									:on => :update
@@ -72,6 +74,17 @@ class User < ActiveRecord::Base
 		device = Device.find_by_mac_address(mac_address)
 		return nil if device.nil?
 		return device.user 
+	end
+
+	def update_password(password)
+		self.password = password
+		self.password_confirmation = password
+		if self.valid?
+			self.save!
+			true
+		else
+			false
+		end
 	end
 
 	private

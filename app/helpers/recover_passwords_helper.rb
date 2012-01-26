@@ -1,0 +1,2 @@
+module RecoverPasswordsHelper
+end

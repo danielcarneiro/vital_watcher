@@ -14,6 +14,12 @@ describe SessionsController do
       get :new
       response.should have_selector("title", :content => "Sign in")
     end
+
+    it "should have a forgot password link" do
+      get :new
+      response.should have_selector("a", :href => new_recover_password_path,
+                                          :content => "Recover it")
+    end
   end
 
   describe "POST 'create'" do

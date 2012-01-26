@@ -32,4 +32,12 @@ class UsersController < ApplicationController
     @title = "Edit user"
   end
 
+  def recover_password
+    @title = "Recover Password"
+  end
+
+  def recover_password_submit
+    redirect_to about_path
+  end
+
 end
