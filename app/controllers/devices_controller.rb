@@ -22,6 +22,17 @@ class DevicesController < ApplicationController
 		redirect_back_or user_path(current_user)
 	end
 
+	def show_user
+		@user = User.find(params[:id])
+		if @user.nil?
+			flash[:error] = "Unknown user"
+			redirect_to users_path
+		else
+			@title = "Show User Devices"
+			@devices = @user.devices
+		end
+	end
+
 	private
 
 		def authorized_user

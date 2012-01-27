@@ -46,9 +46,12 @@ a:visited {
 }
 
 /* Navigation */
-
 nav {
   float: right;
+}
+
+.leftnav {
+  float: left;
 }
 
 nav {
