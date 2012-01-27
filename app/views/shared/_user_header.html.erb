@@ -3,7 +3,7 @@
     <td class="main">
       <h1>
         <%= gravatar_for @user %>
-        <%= @user.display_name %>
+        <%= link_to @user.display_name, @user %>
       </h1>
       <%= render 'shared/menu' %>
     </td>
