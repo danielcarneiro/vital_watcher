@@ -16,9 +16,7 @@ class HeartRateSummary < ActiveRecord::Base
   belongs_to :heart_rate_type
 
   validates :user_id,             :presence => true
-
   validates :heart_rate_type_id,  :presence => true
-
   validates :occurrences, :numericality => { :greater_than => 0 }
 
   default_scope :order => 'heart_rate_summaries.heart_rate_type_id ASC'

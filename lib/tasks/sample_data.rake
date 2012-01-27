@@ -1,15 +1,16 @@
 namespace :db do
 	desc "Fill database with sample data"
 	task :populate => :environment do
-		Rake::Task['db:setdataup'].invoke
+		Rake::Task['db:setdata'].invoke
 		make_users
 		make_devices
 		make_heart_rate_summaries
+		make_activities
 	end
 end
 
 def make_users
-	prng = Random.new(1234)
+	prng = Random.new(DateTime.now.second)
 	9.times do |n|
 		display_name = Faker::Name.name
 		login = (display_name[0] + display_name.split.last).downcase
@@ -27,7 +28,7 @@ def make_users
 end
 
 def make_devices
-	prng = Random.new(12345)
+	prng = Random.new(DateTime.now.second)
 	mask = 0xffffffffffff
 	User.all(:offset => 1, :limit => 3).each do |user|
 		mac_address = ("%12x" % (prng.rand * mask)).scan(/../).join(':').upcase
@@ -36,13 +37,28 @@ def make_devices
 end
 
 def make_heart_rate_summaries
-	prng = Random.new(1337)
-	user_id = 1
-	4.times do |n|
-		HeartRateSummary.create!(:date => Date.today,
-														 :occurrences => prng.rand(20..200),
-														 :user_id => user_id,
-														 :heart_rate_type_id => n + 1)
+	prng = Random.new(DateTime.now.second)
+	(1..5).each do |user_id|
+		4.times do |n|
+			HeartRateSummary.create!(:date => Date.today,
+															 :occurrences => prng.rand(20..200),
+															 :user_id => user_id,
+															 :heart_rate_type_id => n + 1)
+		end
+	end
+end
+
+def make_activities
+	prng = Random.new(DateTime.now.second)
+	(1..5).each do |user_id|
+		timestamp = DateTime.yesterday - 24.hours
+		20.times do |n|
+			Activity.create!(:activity_type_id => prng.rand(1..4),
+											 :user_id => user_id,
+											 :start_date => timestamp)
+
+			timestamp = timestamp + prng.rand(10..60).minutes
+		end
 	end
 end
 

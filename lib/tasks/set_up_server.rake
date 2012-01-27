@@ -129,7 +129,8 @@ def handle_hr(user, value)
 end
 
 def handle_activities(user, value)
-	feedback "handle_activities #{value}"
+	feedback "handle_activities: #{user.display_name}, #{value}"
+	Activity.handle_activity_entry(user, value)
 end
 
 def handle_events(user, value)

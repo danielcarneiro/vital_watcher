@@ -1,6 +1,6 @@
 namespace :db do
 	desc "Fill database with the necessary data to run the app"
-	task :setdataup => :environment do
+	task :setdata => :environment do
 		Rake::Task['db:reset'].invoke
 		make_admin
 		make_device

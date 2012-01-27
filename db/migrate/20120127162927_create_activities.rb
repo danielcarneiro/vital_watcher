@@ -3,7 +3,7 @@ class CreateActivities < ActiveRecord::Migration
     create_table :activities do |t|
       t.references :activity_type
       t.references :user
-      t.datetime :timestamp
+      t.datetime :start_date
 
       t.timestamps
     end
