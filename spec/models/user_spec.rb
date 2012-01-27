@@ -141,6 +141,21 @@ describe User do
         no_password_user.should be_nil
       end
     end
+
+    describe "update password method" do
+      it "should update with a valid password and return true" do
+        password = "foobaz"
+        @user.update_password(password).should be_true
+        User.authenticate(@attr[:login], password).should == @user
+      end
+
+      it "should return false for an invalid password" do
+        invalid_password = "a"
+        @user.update_password(invalid_password).should be_false
+        User.authenticate(@attr[:login], invalid_password).should be_nil
+      end
+
+    end
   end
 
   describe "admin attribute" do
@@ -187,7 +202,26 @@ describe User do
     end
 
     it "should know if it has a device" do
-      @user.has_device?("11:11:11:11:11:11").should be_false
+    end
+
+    describe "has device? method" do
+      it "should be true if the passwords match" do
+        @user.has_device?(@device1.mac_address).should be_true
+      end
+
+      it "should be false if the passwords don't match" do
+        @user.has_device?("11:11:11:11:11:11").should be_false
+      end
+    end
+
+    describe "find by device method" do
+      it "should return the user of the device" do
+        User.find_by_device(@device1.mac_address).should == @user
+      end
+
+      it "should return nil for an unknown device" do
+        User.find_by_device("11:11:11:11:11:11").should be_nil
+      end
     end
   end
 

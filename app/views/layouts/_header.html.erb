@@ -4,7 +4,7 @@
 	  <ul>
 			<li><%= link_to "Home", root_path %></li>
 			<li><%= link_to "Users", users_path %></li>
-			<li><%= link_to "Heart Rates", heart_rate_types_path %></li>
+			<li><%= link_to "Configurations", configurations_path %></li>
 			<% if signed_in? %>
       			<li><%= link_to "Sign out, #{current_user.display_name}", signout_path, :method => :delete %></li>
       		<% else %>

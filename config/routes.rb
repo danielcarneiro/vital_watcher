@@ -1,5 +1,7 @@
 VitalWatcher::Application.routes.draw do
 
+  resources :activity_types
+
   resources :users
   resources :heart_rate_types
 
@@ -22,6 +24,7 @@ VitalWatcher::Application.routes.draw do
   match '/signin',                  :to => 'sessions#new'
   match '/signout',                 :to => 'sessions#destroy'
   
+  match '/configurations',           :to => 'pages#configurations'
   match '/about',                   :to => 'pages#about'
   match '/not_enough_privileges',   :to => 'pages#not_enough_privileges'
 

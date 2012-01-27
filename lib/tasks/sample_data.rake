@@ -5,6 +5,7 @@ namespace :db do
 		make_users
 		make_devices
 		make_heart_rate_types
+		make_activities_types
 	end
 end
 
@@ -58,4 +59,11 @@ def make_heart_rate_types
 							:max_value => 120 )
 	HeartRateType.create!( :name => "<120",
 							:min_value => 120 )
+end
+
+def make_activities_types
+	ActivityType.create!( :name => "Stopped", :tag => 0 )
+	ActivityType.create!( :name => "Moving", :tag => 1 )
+	ActivityType.create!( :name => "Exercising", :tag => 2 )
+	ActivityType.create!( :name => "Lying", :tag => 3 )
 end

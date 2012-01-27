@@ -28,6 +28,22 @@ describe HeartRateSummary do
   	@user.heart_rate_summaries.create!(@attr)
   end
 
+  describe "validations" do
+    it "should require a user id" do
+      HeartRateSummary.new(@attr).should_not be_valid
+    end
+
+    it "should require a heart_rate_type id" do
+      HeartRateSummary.new(@attr.merge(:user_id => 1, 
+                                      :heart_rate_type_id => nil))
+        .should_not be_valid
+    end
+
+    it "should have more that 0 occurrences" do
+      HeartRateSummary.new(@attr.merge(:occurrences => 0)).should_not be_valid
+    end
+  end
+
   describe "user associations" do
     before(:each) do
       @heart_rate_summary = @user.heart_rate_summaries.create(@attr)
@@ -61,35 +77,45 @@ describe HeartRateSummary do
     end
   end
 
-  describe "validations" do
-    it "should require a user id" do
-      HeartRateSummary.new(@attr).should_not be_valid
+  describe "find user heart rates by date method" do
+    before(:each) do
+      @entries = []
+      4.times { @entries << Factory(:heart_rate_summary, :user => @user) }
+      @other = Factory(:heart_rate_summary, :user => @user, :date => Date.yesterday)
     end
 
-    it "should require a heart_rate_type id" do
-      HeartRateSummary.new(@attr.merge(:user_id => 1, 
-                                      :heart_rate_type_id => nil))
-        .should_not be_valid
+    it "should find the right occurrences" do
+      results = HeartRateSummary.find_user_heart_rates_by_date(@user.id, Date.today)
+      results.should =~ @entries
     end
 
-    it "should have more that 0 occurrences" do
-      HeartRateSummary.new(@attr.merge(:occurrences => 0)).should_not be_valid
+    it "should set the percentages" do
+      total = 1 + 2 + 3 + 4
+      @entries.each do |item|
+        item.percent=(total)
+        item.percent.should == "#{(item.occurrences * 10).round(1)}%"
+      end
+    end
+
+  end
+
+  describe "create_new_entry method" do
+    it "should create a new entry" do
+      lambda do
+        count = HeartRateSummary.count
+        HeartRateSummary.create_new_entry(@user, @heart_rate_type)
+        HeartRateSummary.count.should eql count + 1
+      end
     end
   end
 
-  describe "should create a new entry" do
-    lambda do
-      count = HeartRateSummary.count
-      HeartRateSummary.create_new_entry(@user, @heart_rate_type)
-      HeartRateSummary.count.should eql count + 1
-    end
-  end
-
-  describe "should increase the occurrences of the heart rate summary entry by 1" do
-    lambda do
-      heart_rate_summary = HeartRateSummary.create!(@attr)
-      heart_rate_summary.add_occurrence
-      heart_rate_summary.occurrences.should eql @attr[:occurrences] + 1
+  describe "add_occurrence method" do
+    it "should increase the occurrences of the heart rate summary entry by 1" do
+      lambda do
+        heart_rate_summary = HeartRateSummary.create!(@attr)
+        heart_rate_summary.add_occurrence
+        heart_rate_summary.occurrences.should eql @attr[:occurrences] + 1
+      end
     end
   end
 end

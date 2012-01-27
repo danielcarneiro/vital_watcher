@@ -13,7 +13,7 @@ require 'spec_helper'
 describe UsersHelper do
 
 	before(:each) do
-    @user = Factory(:user)
+    @user = Factory.build(:user)
   end
 
 	describe "status for" do

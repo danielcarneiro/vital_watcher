@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120125153439) do
+ActiveRecord::Schema.define(:version => 20120127152454) do
+
+  create_table "activity_types", :force => true do |t|
+    t.string   "name"
+    t.integer  "tag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "activity_types", ["tag"], :name => "index_activity_types_on_tag", :unique => true
 
   create_table "devices", :force => true do |t|
     t.string   "mac_address"

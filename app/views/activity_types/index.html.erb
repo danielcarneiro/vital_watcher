@@ -1,0 +1,25 @@
+<h1>Activity Types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Tag</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_types.each do |activity_type| %>
+  <tr>
+    <td><%= activity_type.name %></td>
+    <td><%= tag_for activity_type.tag %></td>
+    <td><%= link_to 'Show', activity_type %></td>
+    <td><%= link_to 'Edit', edit_activity_type_path(activity_type) %></td>
+    <td><%= link_to 'Destroy', activity_type, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity type', new_activity_type_path %>

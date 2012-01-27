@@ -42,8 +42,9 @@ class User < ActiveRecord::Base
 	       					:length       => { :within => 6..40 },
 	       					:on 		  => :create
 
-	validates :password,	:confirmation => true
-
+	validates :password,	:confirmation => true,
+							:length		  => { :within => 6..40 }, :unless => "password.blank?"
+								
 	validates :encrypted_password,	:presence     => true,
 									:on => :update
 
@@ -66,6 +67,18 @@ class User < ActiveRecord::Base
   		(user && user.salt == cookie_salt) ? user : nil
   	end
 
+	def update_password(password)
+		self.password = password
+		self.password_confirmation = password
+		if self.valid?
+			self.save!
+			true
+		else
+			self.reload
+			false
+		end
+	end
+
   	def has_device?(mac_address)
   		devices.any? { |device| device.mac_address == mac_address }
   	end
@@ -76,19 +89,9 @@ class User < ActiveRecord::Base
 		return device.user 
 	end
 
-	def update_password(password)
-		self.password = password
-		self.password_confirmation = password
-		if self.valid?
-			self.save!
-			true
-		else
-			false
-		end
-	end
-
 	def get_daily_heart_rate_summaries(date)
-		heart_rate_summaries.where(:date => date)
+		results = heart_rate_summaries.where(:date => date)
+		HeartRateSummary.set_percentages(results)
 	end
 
 	private
