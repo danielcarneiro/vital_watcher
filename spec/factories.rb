@@ -9,6 +9,11 @@ Factory.define :user do |user|
 	user.password_confirmation	"foobar"
 end
 
+Factory.define :recover_password do |recover_password|
+	recover_password.association	:user
+	recover_password.email			"daniel.carneiro@biodevices.pt"
+end
+
 Factory.define :device do |device|
 	device.mac_address "12:34:45:56:67:00"
 	device.association :user
@@ -25,6 +30,12 @@ Factory.define :heart_rate_type do |heart_rate_type|
 	heart_rate_type.max_value	130
 end
 
+Factory.define :heart_rate_summary do |heart_rate_summary|
+	heart_rate_summary.date 				Date.today
+	heart_rate_summary.occurrences			7
+	heart_rate_summary.heart_rate_type_id	{ |n| n }
+end
+
 # FactoryGirl.define do
 # 	factory :heart_rate_summary do
 # 		date			Date.today
@@ -37,7 +48,3 @@ end
 # 	end
 # end
 
-Factory.define :recover_password do |recover_password|
-	recover_password.association	:user
-	recover_password.email			"daniel.carneiro@biodevices.pt"
-end

@@ -87,6 +87,10 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def get_daily_heart_rate_summaries(date)
+		heart_rate_summaries.where(:date => date)
+	end
+
 	private
 		def encrypt_password
 			self.salt = make_salt unless has_password?(password)

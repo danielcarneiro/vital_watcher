@@ -190,4 +190,35 @@ describe User do
       @user.has_device?("11:11:11:11:11:11").should be_false
     end
   end
+
+  describe "heart rate summaries associations" do
+    before(:each) do
+      @user = User.create(@attr)
+      @heart_rate_summary1 = Factory(:heart_rate_summary, :user => @user)
+      @heart_rate_summary2 = Factory(:heart_rate_summary, :user => @user)
+    end
+
+    it "should have a heart rate summaries attribute" do
+      @user.should respond_to(:heart_rate_summaries)
+    end
+
+    it "should have the right devices" do
+      @user.heart_rate_summaries.should 
+        include(@heart_rate_summary1, @heart_rate_summary2)
+    end
+
+    it "should destroy associated devices" do
+      @user.destroy
+      [@heart_rate_summary1, @heart_rate_summary2].each do |heart_rate_summary|
+        HeartRateSummary.find_by_id(heart_rate_summary.id).should be_nil
+      end
+    end
+
+    it "should get the daily heart rate summaries" do
+      heart_rate_summary3 = Factory(:heart_rate_summary, :user => @user, :date => Date.yesterday)
+      summaries = @user.get_daily_heart_rate_summaries(Date.today)
+      summaries.should include(@heart_rate_summary1, @heart_rate_summary2)
+      summaries.should_not include(heart_rate_summary3)
+    end
+  end
 end

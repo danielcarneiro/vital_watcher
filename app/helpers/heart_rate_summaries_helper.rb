@@ -1,0 +1,2 @@
+module HeartRateSummariesHelper
+end

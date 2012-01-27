@@ -1,6 +1,6 @@
 <nav class="round leftnav">
   <ul>
-  	<li>Monitor</li>
+  	<li><%= link_to "Monitor", show_user_heart_rate_summary_path(@user) %></li>
   	<li>Activity</li>
   	<li>Events</li>
   	<li><%= link_to "Devices", show_user_device_path(@user) %></li>

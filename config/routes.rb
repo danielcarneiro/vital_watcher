@@ -3,14 +3,20 @@ VitalWatcher::Application.routes.draw do
   resources :users
   resources :heart_rate_types
 
+  resources :recover_passwords, :except => [:index, :show, :destroy] 
   resources :sessions, :only => [:new, :create, :destroy]
+
   resources :devices, :only => [:new, :create, :destroy] do
     member do
       get :show_user
     end
   end
 
-  resources :recover_passwords, :except => [:index, :show, :destroy] 
+  resources :heart_rate_summaries, :only => [:show] do
+    member do
+      get :show_user
+    end
+  end
 
   match '/signup',                  :to => 'users#new'
   match '/signin',                  :to => 'sessions#new'

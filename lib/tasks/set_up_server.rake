@@ -4,7 +4,7 @@ namespace :server do
 	desc "Start Vital Watcher TCP Server"
 	task :start => :environment do
 		@host = '0.0.0.0'
-		port = ENV["PORT"] || 2000
+		port = ENV["PORT"] || 8443
 		start_server(port)
 	end
 end
@@ -96,8 +96,6 @@ def handle_message(message)
 		feedback "unknown user for mac_address: #{address}"
 		return
 	end
-
-	feedback "yey! just got a message from #{user.display_name}"
 	parse_user_message(user, byte_array[6..byte_array.length])
 end
 
@@ -125,9 +123,9 @@ def parse_user_message(user, array)
 end
 
 def handle_hr(user, value)
-	feedback "handle_hr: #{user}, #{value}"
+	feedback "handle_hr: #{user.display_name}, #{value}"
 	hr_type = HeartRateType.find_by_value(value)
-	HeartRateSummary.handle_heart_rate_entry(user, hr_type, Date.today, value)
+	HeartRateSummary.handle_heart_rate_entry(user, hr_type, value)
 end
 
 def handle_activities(user, value)

@@ -1,0 +1,20 @@
+<%= render 'shared/user_header' %>
+
+<strong>Heart Rates</strong>
+
+<% if @heart_rate_summaries.empty? %>
+	There's no entries for this user<br />
+<% else %>
+	<table class="heart_rate_summaries" summary="Heart Rate Summaries">
+		<thead>
+			<tr>
+				<th>Value</th>
+				<th>Occurrences</th>
+				<th>Percent</th>
+			</tr>
+		</thead>
+		<%= render @heart_rate_summaries %>
+	</table>
+<% end %>
+
+

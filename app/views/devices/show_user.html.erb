@@ -1,9 +1,10 @@
 <%= render 'shared/user_header' %>
 
+<strong>Devices</strong>
+
 <% if @user.devices.empty? %>
 	No devices associated<br />
 <% else %>
-	<strong>Devices</strong>
 	<table class="devices" summary="User devices">
 		<%= render @devices %>
 	</table>

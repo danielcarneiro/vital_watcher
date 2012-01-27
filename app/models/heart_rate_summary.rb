@@ -21,17 +21,27 @@ class HeartRateSummary < ActiveRecord::Base
 
   validates :occurrences, :numericality => { :greater_than => 0 }
 
-  def self.handle_heart_rate_entry(user, heart_rate_type, date, value)
-    heart_rate_summary = HeartRateSummary.
-      find_entry(user.id, heart_rate_type.id, Date.today)
-    
-    if (heart_rate_summary == nil)
-      HeartRateSummary.create_new_entry(user.id, heart_rate_type.id)
-    else
-      heart_rate_summary.add_occurrence
-    end
+  default_scope :order => 'heart_rate_summaries.heart_rate_type_id ASC'
 
-    User.update(user.id, :last_heart_rate => value)
+  def self.handle_heart_rate_entry(user, heart_rate_type, value)
+    puts "heart_rate_summary for #{user.id}, #{heart_rate_type.name}"
+
+    begin
+      heart_rate_summary = HeartRateSummary.
+        find_entry(user.id, heart_rate_type.id, Date.today)
+      
+      puts "-> #{heart_rate_summary.class}"
+      if (heart_rate_summary == nil)
+        HeartRateSummary.create_new_entry(user.id, heart_rate_type.id)
+      else
+        heart_rate_summary.add_occurrence
+      end
+
+      User.update(user.id, :last_heart_rate => value)
+    rescue Exception => exc
+      puts "ERROR: #{exc.message}"
+      puts exc.backtrace
+    end
   end
 
   def self.find_entry(user_id, heart_rate_type_id, date)
@@ -43,20 +53,31 @@ class HeartRateSummary < ActiveRecord::Base
   end
 
   def self.find_user_heart_rates_by_date(user_id, date)
-    results = HeartRateSummary.where( :user_id => user.id,
+    results = HeartRateSummary.where( :user_id => user_id,
                                       :date => date )
+
+    total = results.sum(:occurrences)
+    results.each { |r| r.percent=(total) }
   end
 
-  private
-    def self.create_new_entry(user_id, heart_rate_type_id)
-      HeartRateSummary.create!(:date => Date.today,
-                    :occurrences => 1,
-                    :user_id => user_id,
-                    :heart_rate_type_id => heart_rate_type_id)
-    end 
+  def percent=(results)
+    p = occurrences * 100.0 / results
+    @percent = "#{p.round(1)}%"
+  end
 
-    def add_occurrence
-      occurrences += 1
-      save!
-    end
+  def percent
+    @percent
+  end
+
+  def self.create_new_entry(user_id, heart_rate_type_id)
+    HeartRateSummary.create!(:date => Date.today,
+                  :occurrences => 1,
+                  :user_id => user_id,
+                  :heart_rate_type_id => heart_rate_type_id)
+  end 
+
+  def add_occurrence
+    self.occurrences += 1
+    self.save!
+  end
 end
