@@ -6,6 +6,7 @@ namespace :db do
 		make_device
 		make_heart_rate_types
 		make_activities_types
+		make_events_types
 	end
 end
 
@@ -38,4 +39,11 @@ def make_activities_types
 	ActivityType.create!( :name => "Moving", :tag => 1 )
 	ActivityType.create!( :name => "Exercising", :tag => 2 )
 	ActivityType.create!( :name => "Lying", :tag => 3 )
+end
+
+def make_events_types
+	EventType.create!( :name => "Fall", :mask => "00000000")
+	EventType.create!( :name => "Panic Button", :mask => "00000001")
+	EventType.create!( :name => "Working Status", :mask => "0000001X")
+	EventType.create!( :name => "Battery", :mask => "1XXXXXXX")
 end

@@ -10,6 +10,8 @@
 #
 
 class ActivityType < ActiveRecord::Base
+
+	validates	:name,	:presence => true
 	validates	:tag, 	:uniqueness => true,
 						:numericality => {
 							:only_integer => true,

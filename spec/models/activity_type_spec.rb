@@ -24,7 +24,14 @@ describe ActivityType do
 	end
 
   describe "validations" do
-  	it "should fail to a repeated Tag" do
+  	it "should fail to a nil name" do
+      nil_name = ActivityType.new(
+        @attr.merge(:name => ''))
+
+      nil_name.valid?.should be_false
+    end
+
+    it "should fail to a repeated Tag" do
   		activityType = ActivityType.first
   		repeated_tag = ActivityType.new(
   			@attr.merge(:tag => activityType.tag))
@@ -32,7 +39,7 @@ describe ActivityType do
 			repeated_tag.valid?.should be_false
   	end
 
-  	it "should failt to a Tag greater than 0xFF" do
+  	it "should fail to a Tag greater than 0xFF" do
   		ActivityType.new(@attr.merge(:tag => 256)).valid?.should be_false
   		ActivityType.new(@attr.merge(:tag => 255)).valid?.should be_true
   	end

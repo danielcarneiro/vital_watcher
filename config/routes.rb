@@ -1,6 +1,8 @@
 VitalWatcher::Application.routes.draw do
 
 
+  resources :event_types
+
   resources :activity_types
 
   resources :users
@@ -31,7 +33,7 @@ VitalWatcher::Application.routes.draw do
   match '/signin',                  :to => 'sessions#new'
   match '/signout',                 :to => 'sessions#destroy'
   
-  match '/configurations',           :to => 'pages#configurations'
+  match '/configurations',          :to => 'pages#configurations'
   match '/about',                   :to => 'pages#about'
   match '/not_enough_privileges',   :to => 'pages#not_enough_privileges'
 

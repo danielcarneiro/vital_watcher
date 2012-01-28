@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120127162927) do
+ActiveRecord::Schema.define(:version => 20120128173836) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_type_id"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(:version => 20120127162927) do
   end
 
   add_index "devices", ["user_id"], :name => "index_devices_on_user_id"
+
+  create_table "event_types", :force => true do |t|
+    t.string   "name"
+    t.string   "mask"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "heart_rate_summaries", :force => true do |t|
     t.date     "date"
