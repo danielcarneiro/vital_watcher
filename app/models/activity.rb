@@ -18,7 +18,7 @@ class Activity < ActiveRecord::Base
   	validates :activity_type_id,  	:presence => true
   	validates :start_date,  		:presence => true
 
-	default_scope :order => 'activities.start_date ASC'
+	default_scope :order => 'activities.start_date DESC'
 
 	def self.handle_activity_entry(user, tag)
 		at = ActivityType.find_by_tag(tag)

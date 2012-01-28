@@ -1,0 +1,17 @@
+<%= render 'shared/user_header' %>
+
+<h2>Activities</h2><br />
+
+<% if @activities.empty? %>
+	There's no recorded activities for this user<br />
+<% else %>
+	<table class="activities" summary="Activities">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Start Date</th>
+			</tr>
+		</thead>
+		<%= render @activities %>
+	</table>
+<% end %>

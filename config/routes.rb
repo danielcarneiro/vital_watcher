@@ -1,5 +1,6 @@
 VitalWatcher::Application.routes.draw do
 
+
   resources :activity_types
 
   resources :users
@@ -15,6 +16,12 @@ VitalWatcher::Application.routes.draw do
   end
 
   resources :heart_rate_summaries, :only => [:show] do
+    member do
+      get :show_user
+    end
+  end
+
+  resources :activities, :only => [:show] do
     member do
       get :show_user
     end
