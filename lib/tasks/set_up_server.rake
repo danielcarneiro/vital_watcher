@@ -44,7 +44,7 @@ end
 
 def receive_data(tcpSocket)
 	loop do
-		recv = tcpSocket.recv(12).strip
+		recv = tcpSocket.recv(100).strip
 		unless recv.blank? 
 			handle_message recv
 		end
