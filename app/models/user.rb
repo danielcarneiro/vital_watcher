@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
 	has_many :heart_rate_summaries, :dependent => :destroy
 	has_many :recover_passwords, :dependent => :destroy
 	has_many :activities, :dependent => :destroy
+	has_many :events, :dependent => :destroy
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 		

@@ -36,6 +36,18 @@ Factory.define :heart_rate_summary do |heart_rate_summary|
 	heart_rate_summary.sequence(:heart_rate_type_id	)
 end
 
+Factory.define :activity do |activity|
+	activity.sequence(:activity_type_id)
+	activity.start_date					DateTime.now
+end
+
+Factory.define :event do |event|
+	event.sequence(:event_type_id)
+	event.timestamp						DateTime.now
+	event.value 						100
+	event.handled						false
+end
+
 # FactoryGirl.define do
 # 	factory :heart_rate_summary do
 # 		date			Date.today

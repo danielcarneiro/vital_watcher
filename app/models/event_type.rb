@@ -10,6 +10,8 @@
 #
 
 class EventType < ActiveRecord::Base
+	has_many :events, :dependent => :destroy
+	
 	validates	:name,	:presence => true
 	validates	:mask,	:presence => true,
 						:uniqueness => true

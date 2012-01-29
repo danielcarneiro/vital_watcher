@@ -11,6 +11,8 @@
 
 class ActivityType < ActiveRecord::Base
 
+	has_many :activities, :dependent => :destroy
+
 	validates	:name,	:presence => true
 	validates	:tag, 	:uniqueness => true,
 						:numericality => {

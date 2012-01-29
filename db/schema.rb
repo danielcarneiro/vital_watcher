@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120128173836) do
+ActiveRecord::Schema.define(:version => 20120129030334) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_type_id"
@@ -48,6 +48,19 @@ ActiveRecord::Schema.define(:version => 20120128173836) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "events", :force => true do |t|
+    t.integer  "event_type_id"
+    t.integer  "user_id"
+    t.datetime "timestamp"
+    t.integer  "value"
+    t.boolean  "handled"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["event_type_id"], :name => "index_events_on_event_type_id"
+  add_index "events", ["user_id"], :name => "index_events_on_user_id"
 
   create_table "heart_rate_summaries", :force => true do |t|
     t.date     "date"

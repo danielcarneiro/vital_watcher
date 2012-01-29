@@ -23,6 +23,7 @@ class PagesController < ApplicationController
     @title = "Configurations"
     @heart_rate_types = HeartRateType.all
     @activity_types = ActivityType.all
+    @event_types = EventType.all
   end
 
 end

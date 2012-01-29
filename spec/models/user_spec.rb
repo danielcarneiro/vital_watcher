@@ -255,4 +255,28 @@ describe User do
       summaries.should_not include(heart_rate_summary3)
     end
   end
+
+  describe "activities associations" do
+    before(:each) do
+      @user = User.create(@attr)
+      @activity1 = Factory(:activity, :user => @user)
+      @activity2 = Factory(:activity, :user => @user)
+    end
+
+    it "should have a heart rate summaries attribute" do
+      @user.should respond_to(:activities)
+    end
+
+    it "should have the right devices" do
+      @user.activities.should 
+        include(@activity1, @activity2)
+    end
+
+    it "should destroy associated devices" do
+      @user.destroy
+      [@activity1, @activity2].each do |activity|
+        Activity.find_by_id(activity.id).should be_nil
+      end
+    end
+  end
 end
