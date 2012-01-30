@@ -42,8 +42,9 @@ def make_activities_types
 end
 
 def make_events_types
-	EventType.create!( :name => "Fall", :mask => "00000000")
-	EventType.create!( :name => "Panic Button", :mask => "00000001")
-	EventType.create!( :name => "Working Status", :mask => "0000001X")
-	EventType.create!( :name => "Battery", :mask => "1XXXXXXX")
+	EventType.create!( :name => "Panic Button", :tag => 0x01)
+	EventType.create!( :name => "Working Status Off", :tag => 0x02)
+	EventType.create!( :name => "Working Status On", :tag => 0x03)
+	EventType.create!( :name => "Fall", :tag => 0x04)
+	EventType.create!( :name => "Battery", :tag => 0x80)
 end

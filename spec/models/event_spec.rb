@@ -28,4 +28,6 @@ describe Event do
   it "should create a new instance given valid attributes" do
   	@user.events.create!(@attr)
 	end
+
+
 end

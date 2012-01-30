@@ -135,4 +135,5 @@ end
 
 def handle_events(user, value)
 	feedback "handle_events #{value}"
+	Event.handle_event_entry(user, value)
 end

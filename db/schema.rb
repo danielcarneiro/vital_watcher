@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 20120129030334) do
 
   create_table "event_types", :force => true do |t|
     t.string   "name"
-    t.string   "mask"
+    t.integer  "tag"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
