@@ -31,7 +31,7 @@ describe Activity do
       Activity.new(@attr).should_not be_valid
     end
 
-    it "should require a heart_rate_type id" do
+    it "should require a activity_type_id id" do
       Activity.new(@attr.merge(:user_id => 1, 
                               :activity_type_id => nil))
         .should_not be_valid

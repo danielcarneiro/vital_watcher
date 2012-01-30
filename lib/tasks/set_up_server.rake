@@ -32,6 +32,8 @@ def connect
 			ip = connect_info(tcpSocket)
 			begin
 				receive_data(tcpSocket)
+			rescue Exception => e
+				feedback "Exception: #{e.message}"
 			rescue SystemCallError
 				disconnect_info(ip)
 				exit if @interrupted
