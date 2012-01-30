@@ -6,6 +6,7 @@ namespace :db do
 		make_devices
 		make_heart_rate_summaries
 		make_activities
+		make_events
 	end
 end
 
@@ -56,6 +57,24 @@ def make_activities
 			Activity.create!(:activity_type_id => prng.rand(1..4),
 											 :user_id => user_id,
 											 :start_date => timestamp)
+
+			timestamp = timestamp + prng.rand(10..60).minutes
+		end
+	end
+end
+
+def make_events
+	prng = Random.new(DateTime.now.second)
+	(1..5).each do |user_id|
+		timestamp = DateTime.yesterday - 24.hours
+		20.times do |n|
+			event_type_id = prng.rand(1..5)
+			event = Event.create!(:event_type_id => event_type_id,
+							 :user_id => user_id,
+							 :timestamp => timestamp,
+							 :handled => false)
+
+			event.update_attributes!(:value => prng.rand(10..100)) if event_type_id == 5
 
 			timestamp = timestamp + prng.rand(10..60).minutes
 		end

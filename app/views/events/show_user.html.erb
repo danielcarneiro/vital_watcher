@@ -1,0 +1,19 @@
+<%= render 'shared/user_header' %>
+
+<h2>Events</h2><br />
+
+<% if @events.empty? %>
+	There's no recorded events for this user<br />
+<% else %>
+	<table class="events" summary="Events">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Date</th>
+				<th>Value</th>
+				<th>Handled</th>
+			</tr>
+		</thead>
+		<%= render @events %>
+	</table>
+<% end %>

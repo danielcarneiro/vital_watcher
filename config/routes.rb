@@ -1,8 +1,5 @@
 VitalWatcher::Application.routes.draw do
-
-
   resources :event_types
-
   resources :activity_types
 
   resources :users
@@ -24,6 +21,12 @@ VitalWatcher::Application.routes.draw do
   end
 
   resources :activities, :only => [:show] do
+    member do
+      get :show_user
+    end
+  end  
+
+  resources :events, :only => [:show] do
     member do
       get :show_user
     end

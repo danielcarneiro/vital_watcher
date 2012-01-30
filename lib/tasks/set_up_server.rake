@@ -134,6 +134,10 @@ def handle_activities(user, value)
 end
 
 def handle_events(user, value)
-	feedback "handle_events #{value}"
-	Event.handle_event_entry(user, value)
+	begin
+		feedback "handle_events: #{user.display_name}, #{value}"
+		Event.handle_event_entry(user, value)
+	rescue Exception => e
+		feedback e.message
+	end
 end

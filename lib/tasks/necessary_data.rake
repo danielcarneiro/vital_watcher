@@ -35,10 +35,10 @@ def make_heart_rate_types
 end
 
 def make_activities_types
-	ActivityType.create!( :name => "Stopped", :tag => 0 )
-	ActivityType.create!( :name => "Moving", :tag => 1 )
-	ActivityType.create!( :name => "Exercising", :tag => 2 )
-	ActivityType.create!( :name => "Lying", :tag => 3 )
+	ActivityType.create!( :name => "Moving", :tag => 0x01 )
+	ActivityType.create!( :name => "Exercising", :tag => 0x02 )
+	ActivityType.create!( :name => "Lying", :tag => 0x03 )
+	ActivityType.create!( :name => "Stopped", :tag => 0x04 )
 end
 
 def make_events_types
