@@ -77,6 +77,56 @@ describe HeartRateSummary do
     end
   end
 
+  # results_occurrences = results.inject(0){ |sum, summary| sum += summary.occurrences }
+      # results_occurrences = @entries[0].occurrences + 
+      #                       @entries[1].occurrences + 
+      #                       @entries[2].occurrences + 
+      #                       @entries[3].occurrences
+
+  describe "find user heart rates by period method" do
+    before(:each) do
+      @entries = []
+      4.times { @entries << Factory(:heart_rate_summary, :user => @user) }
+      @yesterday = Factory(:heart_rate_summary, :user => @user, :date => Date.yesterday)
+      @tomorrow = Factory(:heart_rate_summary, :user => @user, :date => Date.tomorrow)
+      @last_week = Factory(:heart_rate_summary, :user => @user, :date => Date.yesterday - 1.week)
+      @last_month = Factory(:heart_rate_summary, :user => @user, :date => Date.yesterday - 1.month)
+    end
+
+    it "should find the dailies occurrences" do
+      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Daily")
+      results.length.should == 4
+      returned_total = results.inject(0){ |sum, summary| sum += summary.occurrences }
+      returned_total.should == @entries[0].occurrences + 
+                              @entries[1].occurrences + 
+                              @entries[2].occurrences + 
+                              @entries[3].occurrences
+    end
+
+    it "should find the weekly occurrences" do
+      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Weekly")
+      results.length.should == 4
+      returned_total = results.inject(0){ |sum, summary| sum += summary.occurrences }
+      returned_total.should == @entries[0].occurrences + 
+                              @entries[1].occurrences + 
+                              @entries[2].occurrences + 
+                              @entries[3].occurrences +
+                              @yesterday.occurrences
+    end 
+
+    it "should find the monthly occurrences" do
+      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Monthly")
+      results.length.should == 4
+      returned_total = results.inject(0){ |sum, summary| sum += summary.occurrences }
+      returned_total.should == @entries[0].occurrences + 
+                              @entries[1].occurrences + 
+                              @entries[2].occurrences + 
+                              @entries[3].occurrences + 
+                              @yesterday.occurrences +
+                              @last_week.occurrences
+    end
+  end
+
   describe "find user heart rates by date method" do
     before(:each) do
       @entries = []

@@ -3,7 +3,7 @@
 <h2>Heart Rates</h2><br />
 
 <% if @heart_rate_summaries.empty? %>
-	There's no entries for this user<br />
+	There's no entries here<br />
 <% else %>
 	<table class="heart_rate_summaries" summary="Heart Rate Summaries">
 		<thead>
@@ -16,5 +16,11 @@
 		<%= render @heart_rate_summaries %>
 	</table>
 <% end %>
+
+<p>Do you want to look up for the heart rates at another period?</p>
+
+<%= link_to "Daily Data", show_user_heart_rate_summary_path %><br />
+<%= link_to "Weekly Data", show_user_heart_rate_summary_path(:period => "Weekly") %><br />
+<%= link_to "Monthly Data", show_user_heart_rate_summary_path %><br />
 
 

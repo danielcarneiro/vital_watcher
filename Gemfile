@@ -19,10 +19,9 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
 gem 'execjs'
-
 gem 'therubyracer'
+gem 'awesome_print'
 
 group :development do
 	gem 'rspec-rails', '2.6.1'

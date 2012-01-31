@@ -40,11 +40,13 @@ end
 def make_heart_rate_summaries
 	prng = Random.new(DateTime.now.second)
 	(1..5).each do |user_id|
-		4.times do |n|
-			HeartRateSummary.create!(:date => Date.today,
-															 :occurrences => prng.rand(20..200),
-															 :user_id => user_id,
-															 :heart_rate_type_id => n + 1)
+		(0..30).each do |d|
+			4.times do |n|
+				HeartRateSummary.create!(:date => Date.today - d.day,
+										 :occurrences => prng.rand(20..200),
+										 :user_id => user_id,
+										 :heart_rate_type_id => n + 1)
+			end
 		end
 	end
 end

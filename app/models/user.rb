@@ -16,6 +16,8 @@
 #  admin              :boolean         default(FALSE)
 #
 
+### FALTA: altura, peso, sexo, data_nascimento
+
 class User < ActiveRecord::Base
 	attr_accessor :password
 	attr_accessible :login, :display_name, :email, :last_heart_rate,

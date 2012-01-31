@@ -43,6 +43,31 @@ class HeartRateSummary < ActiveRecord::Base
     return nil
   end
 
+  def self.find_user_heart_rates_by_period(user_id, period)
+    known_periods = {
+      "Daily" => Date.today,
+      "Weekly" => Date.today - 1.week,
+      "Monthly" => Date.today - 1.month
+    }
+
+    raise "unkonw period #{period}" unless known_periods.keys.include?(period)
+
+    start_date = known_periods[period]
+    end_date = Date.today
+
+    results = HeartRateSummary.joins(:heart_rate_type)
+        .select("heart_rate_summaries.heart_rate_type_id, 
+                  heart_rate_types.name, 
+                  SUM(heart_rate_summaries.occurrences) as occurrences")
+        .where( :user_id => user_id,
+                :date => start_date..end_date )
+        .group("heart_rate_summaries.heart_rate_type_id, 
+                heart_rate_types.name")
+        .order("heart_rate_types.name")
+
+    HeartRateSummary.set_percentages(results)
+  end
+
   def self.find_user_heart_rates_by_date(user_id, date)
     results = HeartRateSummary.where( :user_id => user_id,
                                       :date => date )
@@ -51,7 +76,7 @@ class HeartRateSummary < ActiveRecord::Base
   end
 
   def self.set_percentages(enumerable)
-    total = enumerable.sum(:occurrences)
+    total = enumerable.inject(0){ |sum, summary| sum += summary.occurrences }
     enumerable.each { |r| r.percent=(total) }
   end
 
@@ -76,3 +101,5 @@ class HeartRateSummary < ActiveRecord::Base
     self.save!
   end
 end
+
+#results = HeartRateSummary.joins(:heart_rate_type).select("heart_rate_summaries.heart_rate_type_id, heart_rate_types.name, SUM(heart_rate_summaries.occurrences) as occurrences").group("heart_rate_summaries.heart_rate_type_id, heart_rate_types.name").order("heart_rate_types.name")

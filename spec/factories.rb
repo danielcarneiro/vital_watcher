@@ -32,8 +32,8 @@ end
 
 Factory.define :heart_rate_summary do |heart_rate_summary|
 	heart_rate_summary.date 				Date.today
-	heart_rate_summary.sequence(:occurrences)		
-	heart_rate_summary.sequence(:heart_rate_type_id	)
+	heart_rate_summary.occurrences			(30..60).to_a.rand
+	heart_rate_summary.sequence(:heart_rate_type_id) { |n| n%4 + 1 }
 end
 
 Factory.define :activity do |activity|

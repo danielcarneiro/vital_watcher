@@ -1,16 +1,12 @@
 <%= render 'shared/error_messages', :object => f.object %>
-  
-<div class="field">
-  <%= f.label :login %><br />
-  <%= f.text_field :login %>
-</div>
+
 <div class="field">
   <%= f.label :display_name %><br />
   <%= f.text_field :display_name %>
 </div>
 <div class="field">
-  <%= f.label :email %><br />
-  <%= f.text_field :email %>
+  <%= f.label :login %><br />
+  <%= f.text_field :login %>
 </div>
 <div class="field">
   <%= f.label :password %><br />
@@ -19,4 +15,8 @@
 <div class="field">
   <%= f.label :password_confirmation, "Confirmation" %><br />
   <%= f.password_field :password_confirmation %>
+</div>
+<div class="field">
+  <%= f.label :email %><br />
+  <%= f.text_field :email %>
 </div>
