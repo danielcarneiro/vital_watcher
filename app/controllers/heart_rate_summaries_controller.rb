@@ -10,8 +10,12 @@ class HeartRateSummariesController < ApplicationController
 		period = params[:period] || "Daily"
 
 		@heart_rate_summaries = 
-			HeartRateSummary.find_user_heart_rates_by_period(
-				@user.id, period)
+			HeartRateSummary.find_user_heart_rates_by_period(@user.id, period)
+
+		respond_to do |format|
+			format.html
+      		format.json { render json: @heart_rate_summaries }
+		end			
 	end
   end
 end

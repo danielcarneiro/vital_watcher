@@ -7,6 +7,11 @@ class ActivitiesController < ApplicationController
   	else
   		@title = "User Activity"
   		@activities = @user.activities
+
+      respond_to do |format|
+        format.html
+        format.json { render json: @activities }
+      end 
   	end
   end
 end
