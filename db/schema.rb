@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120129030334) do
+ActiveRecord::Schema.define(:version => 20120131203130) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_type_id"
@@ -62,6 +62,12 @@ ActiveRecord::Schema.define(:version => 20120129030334) do
   add_index "events", ["event_type_id"], :name => "index_events_on_event_type_id"
   add_index "events", ["user_id"], :name => "index_events_on_user_id"
 
+  create_table "genders", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "heart_rate_summaries", :force => true do |t|
     t.date     "date"
     t.integer  "occurrences"
@@ -104,6 +110,8 @@ ActiveRecord::Schema.define(:version => 20120129030334) do
     t.string   "encrypted_password"
     t.string   "salt"
     t.boolean  "admin",              :default => false
+    t.datetime "birth_date"
+    t.integer  "gender_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -2,6 +2,7 @@ namespace :db do
 	desc "Fill database with the necessary data to run the app"
 	task :setdata => :environment do
 		Rake::Task['db:reset'].invoke
+		make_genders
 		make_admin
 		make_device
 		make_heart_rate_types
@@ -10,15 +11,22 @@ namespace :db do
 	end
 end
 
+def make_genders
+	Gender.create!( :name => "Male" )
+	Gender.create!( :name => "Female" )
+end
+
 def make_admin
 	admin = User.create!(	:login => "dcarneiro",
-									:display_name => "Daniel Carneiro", 
-									:email => "daniel.carneiro@biodevices.pt",
-									:last_heart_rate => 84,
-									:online_status => true,
-									:last_battery_value => 47,
-									:password => "foobar",
-									:password_confirmation => "foobar")
+							:display_name => "Daniel Carneiro", 
+							:email => "daniel.carneiro@biodevices.pt",
+							:last_heart_rate => 84,
+							:online_status => true,
+							:last_battery_value => 47,
+							:password => "foobar",
+							:password_confirmation => "foobar",
+							:gender => Gender.find_by_name("Male"),
+							:birth_date => '1984-06-27' )
 	admin.toggle!(:admin)
 end
 

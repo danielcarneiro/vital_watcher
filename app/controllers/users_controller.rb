@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   	@title = "Sign up"
+    @genders = Gender.all
   end
 
   def create
@@ -24,12 +25,14 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       @title = "Sign up"
+      @genders = Gender.all
       render 'new'
     end
   end
 
   def edit
     @title = "Edit user"
+    @genders = Gender.all
   end
 
   def recover_password

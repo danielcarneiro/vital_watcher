@@ -14,6 +14,8 @@
 #  encrypted_password :string(255)
 #  salt               :string(255)
 #  admin              :boolean         default(FALSE)
+#  birth_date         :datetime
+#  gender_id          :integer
 #
 
 ### FALTA: altura, peso, sexo, data_nascimento
@@ -22,13 +24,16 @@ class User < ActiveRecord::Base
 	attr_accessor :password
 	attr_accessible :login, :display_name, :email, :last_heart_rate,
 					:online_status, :last_battery_value, 
-					:password, :password_confirmation
+					:password, :password_confirmation,
+					:birth_date, :gender_id
 
 	has_many :devices, :dependent => :destroy
 	has_many :heart_rate_summaries, :dependent => :destroy
 	has_many :recover_passwords, :dependent => :destroy
 	has_many :activities, :dependent => :destroy
 	has_many :events, :dependent => :destroy
+
+	belongs_to :gender
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 		
