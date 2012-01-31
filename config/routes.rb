@@ -6,7 +6,12 @@ VitalWatcher::Application.routes.draw do
   resources :heart_rate_types
 
   resources :recover_passwords, :except => [:index, :show, :destroy] 
-  resources :sessions, :only => [:new, :create, :destroy]
+  
+  resources :sessions, :only => [:new, :create, :destroy] do
+    collection do
+      post :authenticate
+    end
+  end
 
   resources :devices, :only => [:new, :create, :destroy] do
     member do

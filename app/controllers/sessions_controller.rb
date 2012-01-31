@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
   
+  respond_to :html, :json
+
   def new
   	@title = "Sign in"
   end
@@ -14,8 +16,18 @@ class SessionsController < ApplicationController
   		render 'new'
   	else
   		sign_in user
-  		redirect_back_or user
+  		  redirect_back_or user
     end
+  end
+
+  def authenticate
+    user = User.authenticate(params[:session][:login],
+                 params[:session][:password])
+
+    @id = nil
+    @id = user.id unless user.nil?
+
+    respond_with @id     
   end
 
   def destroy

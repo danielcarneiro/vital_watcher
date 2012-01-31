@@ -45,9 +45,9 @@ class HeartRateSummary < ActiveRecord::Base
 
   def self.find_user_heart_rates_by_period(user_id, period)
     known_periods = {
-      "Daily" => Date.today,
-      "Weekly" => Date.today - 1.week,
-      "Monthly" => Date.today - 1.month
+      "Day" => Date.today,
+      "Week" => Date.today - 1.week,
+      "Month" => Date.today - 1.month
     }
 
     raise "unkonw period #{period}" unless known_periods.keys.include?(period)

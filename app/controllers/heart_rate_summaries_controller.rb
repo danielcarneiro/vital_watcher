@@ -1,6 +1,6 @@
 class HeartRateSummariesController < ApplicationController
 
-	respond_to :json
+	respond_to :html, :json
 
 	def show_user
 		@user = User.find(params[:id])
@@ -10,16 +10,12 @@ class HeartRateSummariesController < ApplicationController
 		else
 			@title = "User Monitor"
 
-			period = params[:period] || "Daily"
+			period = params[:period] || "Day"
 
 			@heart_rate_summaries = 
 				HeartRateSummary.find_user_heart_rates_by_period(@user.id, period)
 
-			respond_with @heart_rate_summaries
-			# respond_to do |format|
-			# 	format.html
-			# 	format.json { render :json => @heart_rate_summaries }
-			# end			
+			respond_with @heart_rate_summaries			
 		end
   end
 end

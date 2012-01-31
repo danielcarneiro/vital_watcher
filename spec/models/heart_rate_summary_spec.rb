@@ -77,12 +77,6 @@ describe HeartRateSummary do
     end
   end
 
-  # results_occurrences = results.inject(0){ |sum, summary| sum += summary.occurrences }
-      # results_occurrences = @entries[0].occurrences + 
-      #                       @entries[1].occurrences + 
-      #                       @entries[2].occurrences + 
-      #                       @entries[3].occurrences
-
   describe "find user heart rates by period method" do
     before(:each) do
       @entries = []
@@ -94,7 +88,7 @@ describe HeartRateSummary do
     end
 
     it "should find the dailies occurrences" do
-      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Daily")
+      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Day")
       results.length.should == 4
       returned_total = results.inject(0){ |sum, summary| sum += summary.occurrences }
       returned_total.should == @entries[0].occurrences + 
@@ -104,7 +98,7 @@ describe HeartRateSummary do
     end
 
     it "should find the weekly occurrences" do
-      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Weekly")
+      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Week")
       results.length.should == 4
       returned_total = results.inject(0){ |sum, summary| sum += summary.occurrences }
       returned_total.should == @entries[0].occurrences + 
@@ -115,7 +109,7 @@ describe HeartRateSummary do
     end 
 
     it "should find the monthly occurrences" do
-      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Monthly")
+      results = HeartRateSummary.find_user_heart_rates_by_period(@user.id, "Month")
       results.length.should == 4
       returned_total = results.inject(0){ |sum, summary| sum += summary.occurrences }
       returned_total.should == @entries[0].occurrences + 

@@ -1,6 +1,5 @@
-results @heart_rate_summaries do |heart_rate_summary|
+last_heart_rate @user.last_heart_rate
+interval @heart_rate_summaries do |heart_rate_summary|
     id heart_rate_summary.heart_rate_type.id
-    name heart_rate_summary.heart_rate_type.name
-    occurrences heart_rate_summary.occurrences
     percent cut_percent heart_rate_summary.percent
 end
