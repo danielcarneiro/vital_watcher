@@ -15,7 +15,12 @@ class HeartRateSummariesController < ApplicationController
 			@heart_rate_summaries = 
 				HeartRateSummary.find_user_heart_rates_by_period(@user.id, period)
 
-			respond_with @heart_rate_summaries			
+			@heart_rate_interval = HeartRateSummary.interval?(period)
+
+			respond_to do |format|
+				format.html
+				format.json { respond_with @heart_rate_summaries }
+			end
 		end
   end
 end

@@ -1,0 +1,16 @@
+timestamp DateTime.now.to_i
+if 
+	@user
+then
+	id @user.id
+	display_name @user.display_name
+	login @user.login
+	email @user.email
+	birth_date @user.birth_date.nil? ? nil :  @user.birth_date.to_i
+	gender @user.gender.nil? ? nil : @user.gender.name
+	online_status @user.online_status
+	battery @user.last_battery_value
+else
+	id -1
+	error "unknown user"
+end

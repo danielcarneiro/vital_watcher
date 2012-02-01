@@ -21,6 +21,16 @@ class HeartRateSummary < ActiveRecord::Base
 
   default_scope :order => 'heart_rate_summaries.heart_rate_type_id ASC'
 
+  @interval = {
+    "Day" => "heart_rate_today",
+    "Week" => "heart_rate_week",
+    "Month" => "heart_rate_month"
+  }
+
+  def self.interval?(period)
+    @interval[period]
+  end
+
   def self.handle_heart_rate_entry(user, heart_rate_type, value)
     heart_rate_summary = HeartRateSummary.
       find_entry(user.id, heart_rate_type.id, Date.today)

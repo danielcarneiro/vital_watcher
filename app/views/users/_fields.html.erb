@@ -20,15 +20,4 @@
   <%= f.label :email %><br />
   <%= f.text_field :email %>
 </div>
-<div class="field">
-  <%= f.label :birth_date %><br />
-  <%= f.date_select :birth_date, 
-        :order => [:day, :month, :year], 
-        :start_year => Time.now.year - 100,
-        :end_date => Time.now.year %>
-</div>
-<div class="field">
-  <%= f.label :gender_id %><br />
-  <%= f.collection_select :gender_id, Gender.all, :id, :name, :prompt => 'Choose one' %>
-</div>
 

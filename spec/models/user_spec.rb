@@ -35,7 +35,7 @@ describe User do
   end
 
   it "should create a new instance given valid attributes" do
-    User.create!(@attr)
+    User.create!(@attr.merge(:last_heart_rate => nil, :online_status => nil, :last_battery_value => nil))
   end
 
   it "should require a login" do

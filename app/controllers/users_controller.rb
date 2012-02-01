@@ -1,14 +1,24 @@
 class UsersController < ApplicationController
 
+  respond_to :html, :json
+
 	def index
 		@title = "All users"
     @users = User.all
 	end
 
   def show
-  	@user = User.find(params[:id])
-    @devices = @user.devices
-  	@title = @user.display_name
+  	@user = User.find_by_id(params[:id])
+
+    unless @user.nil?
+      @devices = @user.devices
+      @title = @user.display_name  
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { respond_with @user }
+    end
   end
 
   def new
@@ -22,11 +32,21 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to Vital Watcher"
-      redirect_to @user
+      @id = 1
+
+      respond_to do |format|
+        format.html { redirect_to @user }        
+        format.json { respond_with @id}
+      end
     else
       @title = "Sign up"
       @genders = Gender.all
-      render 'new'
+      @id = -1
+      
+      respond_to do |format|
+        format.html { render 'new' }
+        format.json { respond_with @id }
+      end
     end
   end
 

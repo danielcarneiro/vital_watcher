@@ -1,5 +1,7 @@
-last_heart_rate @user.last_heart_rate
-interval @heart_rate_summaries do |heart_rate_summary|
+timestamp DateTime.now.to_i
+heart_rate @user.last_heart_rate
+type @heart_rate_interval
+value @heart_rate_summaries do |heart_rate_summary|
     id heart_rate_summary.heart_rate_type.id
     percent cut_percent heart_rate_summary.percent
 end

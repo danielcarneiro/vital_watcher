@@ -1,0 +1,9 @@
+timestamp DateTime.now.to_i
+id @id
+if 
+	@user.errors.any?
+then
+	errors @user.errors.full_messages do |msg|
+		message msg.to_s
+	end
+end
