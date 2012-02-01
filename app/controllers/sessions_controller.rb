@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
     user = User.authenticate(params[:session][:login],
                  params[:session][:password])
 
-    @id = nil
+    @id = -1
     @id = user.id unless user.nil?
 
     respond_with @id     

@@ -11,5 +11,7 @@
 require 'spec_helper'
 
 describe Gender do
-  pending "add some examples to (or delete) #{__FILE__}"
+	it "should have a user attribute" do
+      Gender.new.should respond_to(:users)
+    end
 end
