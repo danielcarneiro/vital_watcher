@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 	has_many :activities, :dependent => :destroy
 	has_many :events, :dependent => :destroy
 
-	belongs_to :gender
+	has_many :marshallings
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 		

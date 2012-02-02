@@ -1,4 +1,6 @@
 VitalWatcher::Application.routes.draw do
+  get "marshalling/get_data"
+
   resources :event_types
   resources :activity_types
 
