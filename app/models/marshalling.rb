@@ -3,8 +3,6 @@ class Marshalling
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  require 'json_builder'
-
   attr_accessor :user_id, :timestamp, :user, 
                 :request, :response
 
@@ -17,6 +15,18 @@ class Marshalling
     attributes.each do |name, value|
       send("#{name}=", value)
     end
+
+    @messages = {
+      "user_data" => :parse_user_data,
+      "battery" => :parse_battery,
+      "heart_rate_today" => :parse_heart_rate_today,
+      "heart_rate_week" => :parse_heart_rate_week,
+      "heart_rate_month" => :parse_heart_rate_month,
+      "heart_rate" => :parse_heart_rate,
+      "heart_rate_history" => :parse_heart_rate_history,
+    }
+
+    @response = { "timestamp" => DateTime.now.to_i }
   end
 
   def persisted?
@@ -33,27 +43,23 @@ class Marshalling
   	@user_id = value.id
   end
 
-  @messages = {
-  	"user_data" => :parse_user_data,
-  	"battery" => :parse_battery,
-  	"heart_rate_today" => :parse_heart_rate_today,
-  	"heart_rate_week" => :parse_heart_rate_week,
-  	"heart_rate_month" => :parse_heart_rate_month,
-  	"heart_rate" => :parse_heart_rate,
-  	"heart_rate_history" => :parse_heart_rate_history,
-  }
+  def self.parse_message(message)
+    marshall = Marshalling.new(message)
+    marshall.parse_request
+  end
 
-  def self.parse_request(request)
-    marshall = Marshalling.new(request)
-    marshall.response = {
-      "timestamp" => DateTime.now.to_i
-    }
-
-    marshall
+  def parse_request
+    request.each do |token|
+      send(@messages[token]) if @messages.has_key?(token)
+    end
   end
 
   def parse_user_data
-    response << { "user_data" => user }
+    ap 'parse user data'
+    ap self
+
+    return nil if self.response.has_key?("user_data")
+    response["user_data"] = user
   end
 
   def parse_battery

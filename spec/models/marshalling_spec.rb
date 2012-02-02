@@ -6,8 +6,16 @@ describe Marshalling do
 		@attr = {
 			:user_id => 1,
 			:timestamp => DateTime.now.to_i,
-			:request => []
+			:request => ["user_data"]
 		}
+	end
+
+	# u = { "user_id" => 1, "timestamp" => DateTime.now.to_i, "request" => ["user_data", "battery"]}
+	# u2 = { "user_id" => 1, "timestamp" => DateTime.now.to_i, "user_data" => "daniel", "battery" => 87}
+
+	it "should create a valid instance" do
+		marshall = Marshalling.new(@attr)
+		marshall.should be_valid
 	end
 
 	describe "invalid data" do
@@ -36,7 +44,7 @@ describe Marshalling do
 
     end
 
-		it "should have a user attribute" do
+    it "should have a user attribute" do
       @marshall.should respond_to(:user)
     end
 
@@ -47,5 +55,22 @@ describe Marshalling do
 			@marshall2.user_id.should == @user.id
       @marshall2.user.should == @user      
     end
+	end
+
+	describe "parse methods" do
+		before(:each) do
+			@marshall = Marshalling.new(@attr)
+			@marshall.response = {
+				"timestamp" => DateTime.now.to_i
+			}
+		end
+
+		it "should parse the user data" do
+			@marshall.response.has_key?("user_data").should be_false
+			@marshall.parse_user_data.should_not be_nil
+			@marshall.response.has_key?("user_data").should be_true
+			@marshall.parse_user_data.should be_nil
+		end
+
 	end
 end
