@@ -8,7 +8,7 @@ then
 		login user.login
 		email user.email
 		birth_date user.birth_date.to_i if user.birth_date
-		gender user.gender.name if user.id_gender
+		gender user.gender.name if user.gender_id
 		online_status user.online_status
 	end
 end
