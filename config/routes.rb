@@ -1,6 +1,4 @@
 VitalWatcher::Application.routes.draw do
-  get "marshalling/get_data"
-
   resources :event_types
   resources :activity_types
 
@@ -38,6 +36,8 @@ VitalWatcher::Application.routes.draw do
       get :show_user
     end
   end
+
+  resources :marshalling, :only => [:index]
 
   match '/signup',                  :to => 'users#new'
   match '/signin',                  :to => 'sessions#new'

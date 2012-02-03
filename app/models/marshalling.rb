@@ -46,6 +46,7 @@ class Marshalling
   def self.parse_message(message)
     marshall = Marshalling.new(message)
     marshall.parse_request
+    marshall
   end
 
   def parse_request
@@ -55,15 +56,13 @@ class Marshalling
   end
 
   def parse_user_data
-    ap 'parse user data'
-    ap self
-
     return nil if self.response.has_key?("user_data")
     response["user_data"] = user
   end
 
   def parse_battery
-
+    return nil if self.response.has_key?("battery")
+    response["battery"] = user.last_battery_value
   end
 
   def parse_heart_rate_today

@@ -6,7 +6,7 @@ describe Marshalling do
 		@attr = {
 			:user_id => 1,
 			:timestamp => DateTime.now.to_i,
-			:request => ["user_data"]
+			:request => ["user_data", "battery"]
 		}
 	end
 
@@ -65,12 +65,27 @@ describe Marshalling do
 			}
 		end
 
+		it "should find the right keys" do
+			@marshall.parse_request
+			@marshall.response.keys.should =~ ["timestamp", "user_data", "battery"]
+		end
+
 		it "should parse the user data" do
 			@marshall.response.has_key?("user_data").should be_false
-			@marshall.parse_user_data.should_not be_nil
+			resp = @marshall.parse_user_data
+			resp.should == @marshall.user
+
 			@marshall.response.has_key?("user_data").should be_true
 			@marshall.parse_user_data.should be_nil
 		end
 
+		it "should parse the battery" do
+			@marshall.response.has_key?("battery").should be_false
+			resp = @marshall.parse_battery
+			resp.should == @marshall.user.last_battery_value
+
+			@marshall.response.has_key?("battery").should be_true
+			@marshall.parse_battery.should be_nil
+		end
 	end
 end

@@ -1,0 +1,25 @@
+timestamp @response["timestamp"]
+if 
+	@response["user_data"]
+then
+	user_data @response["user_data"] do |user|
+		id user.id
+		display_name user.display_name
+		login user.login
+		email user.email
+		birth_date user.birth_date.to_i if user.birth_date
+		gender user.gender.name if user.id_gender
+		online_status user.online_status
+	end
+end
+if 
+	@response["battery"]
+then
+	battery @response["battery"]
+end
+if 
+	@response["activity_today"]
+then
+	activity_today 7
+end
+
